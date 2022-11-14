@@ -2,11 +2,19 @@ import os
 import glob
 import format_functions
 
-os.chdir('/home/headonpillow/Desktop/PhD/UPPMAX_jobs/oligos')
+os.chdir('.')
 
 for oligo in glob.glob('*.file'):
 
-    f = open(oligo)
-    string_list = f.readlines()
+    file = open(oligo)
+    string_list = file.readlines()
 
-    format_functions.mothur_to_cutadapt_2(string_list, oligo)
+    content = format_functions.mothur_to_cutadapt_2(string_list)
+
+    file = open(oligo+'_cutadapt_f.fasta', "w")
+    new_content = ''.join(content[0])
+    file.write(new_content)
+
+    file = open(oligo+'_cutadapt_r.fasta', "w")
+    new_content = ''.join(content[1])
+    file.write(new_content)
