@@ -1,50 +1,6 @@
 import glob
 import os
 
-def ReverseComplement(string_list):
-    new_string_list = []
-
-    for string in string_list:
-        if 'BARCODE' not in string:
-            continue
-        else:
-            new_line = []
-            forward = string[8:15]
-            reverse = string[16:23]
-            sample = string[24:]
-            sample = sample.replace("/", "-")
-            reversed_f = forward[::-1]
-            rc_forward = ''
-            for base in reversed_f:
-                if base == 'A':
-                    rc_forward += 'T'
-                if base == 'T':
-                    rc_forward += 'A'
-                if base == 'C':
-                    rc_forward += 'G'
-                if base == 'G':
-                    rc_forward += 'C'
-            new_line.append('>')
-            new_line.append(sample)
-            new_line.append('X')
-            new_line.append(forward)
-            new_line.append('\n')
-            new_line.append('>')
-            new_line.append(sample)
-            new_line.append('X')
-            new_line.append(reverse)
-            new_line.append('\n')
-            new_line.append('>')
-            new_line.append(sample)
-            new_line.append('X')
-            new_line.append(rc_forward)
-            new_line.append('\n')
-
-            new_string = ''.join(new_line)
-            new_string_list.append(new_string)
-
-    return new_string_list
-
 def MothurToCutadapt(string_list, adapter_type = '^'):
 
 # It just works when barcodes are 7bp long tho, maybe I can implement another parameter.
