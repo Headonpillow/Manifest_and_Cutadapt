@@ -1,9 +1,7 @@
 import glob
 import os
 
-def MothurToCutadapt(string_list, adapter_type = '^'):
-
-# It just works when barcodes are 7bp long tho, maybe I can implement another parameter.
+def MothurToCutadapt(string_list, adapter_type = '^', barcode_length = 7):
 
     new_string_list_forward = []
     new_string_list_reverse = []
@@ -15,9 +13,21 @@ def MothurToCutadapt(string_list, adapter_type = '^'):
             new_line_forward = []
             new_line_reverse = []
 
-            forward = string[8:15]
-            reverse = string[16:23]
-            sample = string[24:]
+            if barcode_length > 7:
+                offset = barcode_length - 7
+                corrected_fwd_end = 15 + offset
+                corrected_rv_start = 16 + offset
+                corrected_rv_end = 23 + offset
+                corrected_sample_start = 24 + offset
+
+                forward = string[8:corrected_fwd_end]
+                reverse = string[corrected_rv_start:corrected_rv_end]
+                sample = string[corrected_sample_start:]
+
+            else:
+                forward = string[8:15]
+                reverse = string[16:23]
+                sample = string[24:]
 
             sample = sample.replace("/", "-")
             new_line_forward.append('>')
@@ -39,7 +49,7 @@ def MothurToCutadapt(string_list, adapter_type = '^'):
 
     return [new_string_list_forward, new_string_list_reverse]
 
-def ConvertOligos(path = '.'):
+def ConvertOligos(path = '.', adapter_type = '^', barcode_length = 7):
 
     os.chdir(path)
 
@@ -47,7 +57,7 @@ def ConvertOligos(path = '.'):
         file = open(oligo)
         string_list = file.readlines()
 
-        content = MothurToCutadapt(string_list)
+        content = MothurToCutadapt(string_list, adapter_type, barcode_length)
 
         file = open(oligo + '_cutadapt_f.fasta', "w")
         new_content = ''.join(content[0])
