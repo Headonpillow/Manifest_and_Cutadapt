@@ -1,11 +1,21 @@
 import os
 import glob
 
-os.chdir('/home/headonpillow/Desktop/PhD/UPPMAX_jobs/cutadapt')
+os.chdir('.')
 
-for manifest in glob.glob('*.tsv'):
+# So whatever it does, it just converts basically a tsv file that contains for each string:
+# from 0:-13 the sample (so the last 13 positions are the rest of the filename like ".R1 etc.")
+# the whole string is the filename, that ends with "/"? that gets removed from the "-1".
+# Apparently the thing happens for many .tsv files idk why.
+# I don't understand from what types of .tsvs this is supposed to create a manifest file.
 
-    f = open(manifest)
+content = os.listdir()
+
+new_string_list = []
+
+for file in content:
+
+    f = open(file)
     string_list = f.readlines()
 
     new_string_list = []

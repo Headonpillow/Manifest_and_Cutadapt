@@ -1,4 +1,7 @@
-def mothur_to_cutadapt_f(string_list):
+import glob
+import os
+
+def ReverseComplement(string_list):
     new_string_list = []
 
     for string in string_list:
@@ -42,102 +45,9 @@ def mothur_to_cutadapt_f(string_list):
 
     return new_string_list
 
+def MothurToCutadapt(string_list, adapter_type = '^'):
 
-def mothur_to_cutadapt_r(string_list):
-    new_string_list = []
-
-    for string in string_list:
-        if 'BARCODE' not in string:
-            continue
-        else:
-            new_line = []
-            forward = string[8:15]
-            reverse = string[16:23]
-            sample = string[24:]
-            sample = sample.replace("/", "-")
-            reversed_r = reverse[::-1]
-            rc_reverse = ''
-            for base in reversed_r:
-                if base == 'A':
-                    rc_reverse += 'T'
-                if base == 'T':
-                    rc_reverse += 'A'
-                if base == 'C':
-                    rc_reverse += 'G'
-                if base == 'G':
-                    rc_reverse += 'C'
-            new_line.append('>')
-            new_line.append(sample)
-            new_line.append('X')
-            new_line.append(reverse)
-            new_line.append('\n')
-            new_line.append('>')
-            new_line.append(sample)
-            new_line.append('X')
-            new_line.append(forward)
-            new_line.append('\n')
-            new_line.append('>')
-            new_line.append(sample)
-            new_line.append('X')
-            new_line.append(rc_reverse)
-            new_line.append('\n')
-
-            new_string = ''.join(new_line)
-            new_string_list.append(new_string)
-
-    return new_string_list
-
-
-def mothur_to_cutadapt_f_2(string_list):
-    new_string_list = []
-
-    for string in string_list:
-        if 'BARCODE' not in string:
-            continue
-        else:
-            new_line = []
-            forward = string[8:15]
-            sample = string[24:]
-            sample = sample.replace("/", "-")
-            new_line.append('>')
-            new_line.append(sample)
-            new_line.append('X')
-            new_line.append(forward)
-            new_line.append('\n')
-
-            new_string = ''.join(new_line)
-            new_string_list.append(new_string)
-
-    return new_string_list
-
-
-def mothur_to_cutadapt_r_2(string_list):
-    new_string_list = []
-
-    for string in string_list:
-        if 'BARCODE' not in string:
-            continue
-        else:
-            new_line = []
-            reverse = string[16:23]
-            sample = string[24:]
-            sample = sample.replace("/", "-")
-            new_line.append('>')
-            new_line.append(sample)
-            new_line.append('X')
-            new_line.append(reverse)
-            new_line.append('\n')
-
-            new_string = ''.join(new_line)
-            new_string_list.append(new_string)
-
-    return new_string_list
-
-
-def mothur_to_cutadapt_2(string_list):
-
-    # This function is the correct and currently implemented one, anyhow the commented lines in here are the
-    # ones to specify the kind of adapter we are dealing with.
+# It just works when barcodes are 7bp long tho, maybe I can implement another parameter.
 
     new_string_list_forward = []
     new_string_list_reverse = []
@@ -156,13 +66,13 @@ def mothur_to_cutadapt_2(string_list):
             sample = sample.replace("/", "-")
             new_line_forward.append('>')
             new_line_forward.append(sample)
-            # new_line_forward.append('^')
+            new_line_forward.append(adapter_type)
             new_line_forward.append(forward)
             new_line_forward.append('\n')
 
             new_line_reverse.append('>')
             new_line_reverse.append(sample)
-            # new_line_reverse.append('^')
+            new_line_reverse.append(adapter_type)
             new_line_reverse.append(reverse)
             new_line_reverse.append('\n')
 
@@ -172,3 +82,21 @@ def mothur_to_cutadapt_2(string_list):
             new_string_list_reverse.append(new_string_reverse)
 
     return [new_string_list_forward, new_string_list_reverse]
+
+def ConvertOligos(path = '.'):
+
+    os.chdir(path)
+
+    for oligo in glob.glob('*.file'):
+        file = open(oligo)
+        string_list = file.readlines()
+
+        content = MothurToCutadapt(string_list)
+
+        file = open(oligo + '_cutadapt_f.fasta', "w")
+        new_content = ''.join(content[0])
+        file.write(new_content)
+
+        file = open(oligo + '_cutadapt_r.fasta', "w")
+        new_content = ''.join(content[1])
+        file.write(new_content)
