@@ -1,4 +1,4 @@
-import format_functions
+import manifest_create
 
-format_functions.ConvertOligos('.')
-
+# format_functions.ConvertOligos('.')
+manifest_create.write_manifest()

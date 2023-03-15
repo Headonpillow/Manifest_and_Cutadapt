@@ -1,8 +1,8 @@
 import glob
 import os
 
-def MothurToCutadapt(string_list, adapter_type = '^', barcode_length = 7):
 
+def mothur_to_cutadapt(string_list, adapter_type='^', barcode_length=7):
     new_string_list_forward = []
     new_string_list_reverse = []
 
@@ -49,15 +49,15 @@ def MothurToCutadapt(string_list, adapter_type = '^', barcode_length = 7):
 
     return [new_string_list_forward, new_string_list_reverse]
 
-def ConvertOligos(path = '.', adapter_type = '^', barcode_length = 7):
 
+def convert_oligos(path='.', adapter_type='^', barcode_length=7):
     os.chdir(path)
 
     for oligo in glob.glob('*.file'):
         file = open(oligo)
         string_list = file.readlines()
 
-        content = MothurToCutadapt(string_list, adapter_type, barcode_length)
+        content = mothur_to_cutadapt(string_list, adapter_type, barcode_length)
 
         file = open(oligo + '_cutadapt_f.fasta', "w")
         new_content = ''.join(content[0])
