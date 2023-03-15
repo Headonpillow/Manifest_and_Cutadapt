@@ -13,12 +13,14 @@ def MothurToCutadapt(string_list, adapter_type = '^', barcode_length = 7):
             new_line_forward = []
             new_line_reverse = []
 
+            import ipdb; ipdb.set_trace()
+
             if barcode_length > 7:
                 offset = barcode_length - 7
                 corrected_fwd_end = 15 + offset
-                corrected_rv_start = 16 + offset
-                corrected_rv_end = 23 + offset
-                corrected_sample_start = 24 + offset
+                corrected_rv_start = corrected_fwd_end + offset
+                corrected_rv_end = corrected_rv_start + barcode_length
+                corrected_sample_start = corrected_rv_end + offset
 
                 forward = string[8:corrected_fwd_end]
                 reverse = string[corrected_rv_start:corrected_rv_end]
