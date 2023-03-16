@@ -1,4 +1,4 @@
-from metaconv import manifest_create
+import metaconv
 
 # format_functions.ConvertOligos('.')
-manifest_create.write_manifest()
+metaconv.write_manifest()
