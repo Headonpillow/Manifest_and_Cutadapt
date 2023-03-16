@@ -3,7 +3,6 @@
 # Folders
 /metaconv/tests/.pytest_cache/
 /metaconv/__pycache__/
-/metaconv/tests/__pycache__/
+tests/__pycache__/
 /venv/
-/.pytest_cache/
 /.idea/
