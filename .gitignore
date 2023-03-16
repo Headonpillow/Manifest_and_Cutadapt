@@ -1,0 +1,7 @@
+# Temporary working files #
+###########################
+# Folders
+/metaconv/tests/.pytest_cache/
+/venv/
+/.pytest_cache/
+/.idea/
