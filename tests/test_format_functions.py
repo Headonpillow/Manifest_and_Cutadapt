@@ -17,4 +17,3 @@ def test_format_functions():
 
     os.remove('./resources/mos1.file_cutadapt_f.fasta')
     os.remove('./resources/mos1.file_cutadapt_r.fasta')
-

@@ -3,6 +3,25 @@ import os
 
 
 def mothur_to_cutadapt(string_list, adapter_type='^', barcode_length=7):
+    '''
+    Used from the "Convert Oligo" function to actually operate the conversion.
+    It reads line by line the previous file and reformats every line with a new string.
+
+    Parameters
+    ----------
+    string_list :
+        This parameter is created during the call of 'Convert_oligos'.
+
+    adapter_type : string
+        Specify the type of adapter for Cutadapt, according to the ones listed
+        `here<https://cutadapt.readthedocs.io/en/stable/guide.html#adapter-types>`_.
+        Default `adapter_type = ''` that corresponds to an anchored 5' adapter.
+
+    barcode_length : integer
+        Specify the length of the barcodes in the oligo files.
+        Default `barcode_length = 7`
+    '''
+
     new_string_list_forward = []
     new_string_list_reverse = []
 
@@ -51,6 +70,29 @@ def mothur_to_cutadapt(string_list, adapter_type='^', barcode_length=7):
 
 
 def convert_oligos(path='.', adapter_type='^', barcode_length=7):
+    """
+    Converts the Mothur "oligo" format to .fasta files containing the barcodes, for use with Cutadapt.
+
+    The function reads the barcode pairs present in the oligo files with the .file extension used in the Mothur
+    software. Those barcode pairs are reformatted in two different .fasta files that can be used as inputs to
+    operate the demultiplexing of NGS reads with Cutadapt.
+    It outputs .fasta files in the directory where the oligo files are present.
+
+    Parameters
+    ----------
+    path : string
+        The path where the oligo files are stored, this directory will also be the output directory.
+        Default `path = '.'`
+
+    adapter_type : string
+        Specify the type of adapter for Cutadapt, according to the ones listed
+        `here<https://cutadapt.readthedocs.io/en/stable/guide.html#adapter-types>`_.
+        Default `adapter_type = ''` that corresponds to an anchored 5' adapter.
+
+    barcode_length : integer
+        Specify the length of the barcodes in the oligo files.
+        Default `barcode_length = 7`
+    """
     root = os.getcwd()
     os.chdir(path)
 
