@@ -12,6 +12,7 @@ def read_folder_content(raw_files_path='.'):
 
 
 def write_manifest(raw_files_path='.'):
+    root = os.getcwd()
     # Use the function 'ReadFolderContent' to
     file_list = read_folder_content(raw_files_path)
     new_string_list = []
@@ -44,3 +45,4 @@ def write_manifest(raw_files_path='.'):
     file = open('manifest.tsv', "w")
     new_content = ''.join(new_string_list)
     file.write(new_content)
+    os.chdir(root)

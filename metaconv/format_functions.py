@@ -51,6 +51,7 @@ def mothur_to_cutadapt(string_list, adapter_type='^', barcode_length=7):
 
 
 def convert_oligos(path='.', adapter_type='^', barcode_length=7):
+    root = os.getcwd()
     os.chdir(path)
 
     for oligo in glob.glob('*.file'):
@@ -66,3 +67,5 @@ def convert_oligos(path='.', adapter_type='^', barcode_length=7):
         file = open(oligo + '_cutadapt_r.fasta', "w")
         new_content = ''.join(content[1])
         file.write(new_content)
+
+    os.chdir(root)
