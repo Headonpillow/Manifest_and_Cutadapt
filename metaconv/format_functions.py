@@ -14,7 +14,7 @@ def mothur_to_cutadapt(string_list, adapter_type='^', barcode_length=7):
 
     adapter_type : string
         Specify the type of adapter for Cutadapt, according to the ones listed
-        `here<https://cutadapt.readthedocs.io/en/stable/guide.html#adapter-types>`_.
+        `here <https://cutadapt.readthedocs.io/en/stable/guide.html#adapter-types>`_.
         Default `adapter_type = ''` that corresponds to an anchored 5' adapter.
 
     barcode_length : integer
@@ -110,7 +110,7 @@ def convert_oligos(path='.', adapter_type='^', barcode_length=7):
 
     adapter_type : string
         Specify the type of adapter for Cutadapt, according to the ones listed
-        `here<https://cutadapt.readthedocs.io/en/stable/guide.html#adapter-types>`_.
+        `here <https://cutadapt.readthedocs.io/en/stable/guide.html#adapter-types>`_.
         Default `adapter_type = ''` that corresponds to an anchored 5' adapter.
 
     barcode_length : integer
